@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Morning Run",
+    "startedOn": "2012-01-01T06:00:00",
+    "completedOn": "2012-01-01T07:00:00",
+    "miles": 5,
+    "location": "OUTDOOR"
+  },
+    {
+    "id": 2,
+    "title": "Afternoon Run",
+    "startedOn": "2012-02-01T06:00:00",
+    "completedOn": "2012-02-01T07:00:00",
+    "miles": 5,
+    "location": "INDOOR"
+  },
+    {
+    "id": 3,
+    "title": "Night Run",
+    "startedOn": "2012-03-01T06:00:00",
+    "completedOn": "2012-03-01T07:00:00",
+    "miles": 5,
+    "location": "OUTDOOR"
+  }
+]
