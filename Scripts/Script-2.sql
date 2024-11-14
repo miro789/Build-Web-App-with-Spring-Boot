@@ -9,12 +9,4 @@ version INT,
 PRIMARY KEY (id)
 );
 
-
-
-
-
-
-
-
-
-
+COMMIT;

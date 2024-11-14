@@ -2,23 +2,24 @@ package com.example.demo.run;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aot.hint.TypeReference;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class RunJsonDataLoader implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(RunJsonDataLoader.class);
 
-	private final RunRepository runRepository;
+	private final JdbcClientRunRepository runRepository;
 	private final ObjectMapper objectMapper;
 
-	public RunJsonDataLoader(RunRepository runRepository, ObjectMapper objectMapper) {
+	public RunJsonDataLoader(JdbcClientRunRepository runRepository, ObjectMapper objectMapper) {
 		this.runRepository = runRepository;
 		this.objectMapper = objectMapper;
 	}
@@ -26,10 +27,14 @@ public class RunJsonDataLoader implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		if (runRepository.count() == 0) {
-			try (InputStream inputStream = TypeReference.class.getResourceAsStream("/data/runs.json")) {
-				Runs allRuns = objectMapper.readValue(inputStream, Runs.class);
-				log.info("Reading {} runs from JSON data and saving to in-memory collection.", allRuns.runs().size());
-				runRepository.saveAll(allRuns.runs());
+			try (InputStream inputStream = getClass().getResourceAsStream("/data/runs.json")) {
+				if (inputStream == null) {
+					throw new RuntimeException("File /data/runs.json not found");
+				}
+				List<Run> allRuns = objectMapper.readValue(inputStream, new TypeReference<List<Run>>() {
+				});
+				log.info("Reading {} runs from JSON data and saving it to a database", allRuns.size());
+				runRepository.saveAll(allRuns);
 			} catch (IOException e) {
 				throw new RuntimeException("Failed to read JSON data", e);
 			}

@@ -8,13 +8,3 @@ location varchar(10) NOT NULL,
 version INT,
 PRIMARY KEY (id)
 );
-
-
-
-
-
-
-
-
-
-
