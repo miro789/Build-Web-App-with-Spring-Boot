@@ -33,6 +33,9 @@
 					"postgresql.dd.tag.string": "false"
 				},
 				"auth-model": "native"
+			},
+			"custom-properties": {
+				"resultset.grid.value.format": "UI"
 			}
 		}
 	},
